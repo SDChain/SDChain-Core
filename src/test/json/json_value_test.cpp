@@ -1,0 +1,257 @@
+//------------------------------------------------------------------------------
+/*
+    This file is part of sdchaind: https://github.com/SDChain/SDChain-core
+    Copyright (c) 2017, 2018 SDChain Alliance.
+
+
+
+*/
+//==============================================================================
+
+#include <BeastConfig.h>
+#include <sdchain/json/json_value.h>
+#include <sdchain/json/json_reader.h>
+#include <sdchain/json/json_writer.h>
+#include <sdchain/beast/unit_test.h>
+#include <sdchain/beast/type_name.h>
+
+namespace sdchain {
+
+struct json_value_test : beast::unit_test::suite
+{
+    void test_bool()
+    {
+        BEAST_EXPECT(! Json::Value());
+
+        BEAST_EXPECT(! Json::Value(""));
+
+        BEAST_EXPECT(bool (Json::Value("empty")));
+        BEAST_EXPECT(bool (Json::Value(false)));
+        BEAST_EXPECT(bool (Json::Value(true)));
+        BEAST_EXPECT(bool (Json::Value(0)));
+        BEAST_EXPECT(bool (Json::Value(1)));
+
+        Json::Value array (Json::arrayValue);
+        BEAST_EXPECT(! array);
+        array.append(0);
+        BEAST_EXPECT(bool (array));
+
+        Json::Value object (Json::objectValue);
+        BEAST_EXPECT(! object);
+        object[""] = false;
+        BEAST_EXPECT(bool (object));
+    }
+
+    void test_bad_json ()
+    {
+        char const* s (
+            "{\"method\":\"ledger\",\"params\":[{\"ledger_index\":1e300}]}"
+            );
+
+        Json::Value j;
+        Json::Reader r;
+
+        r.parse (s, j);
+        pass ();
+    }
+
+    void test_edge_cases ()
+    {
+        std::string json;
+
+        std::uint32_t max_uint = std::numeric_limits<std::uint32_t>::max ();
+        std::int32_t max_int = std::numeric_limits<std::int32_t>::max ();
+        std::int32_t min_int = std::numeric_limits<std::int32_t>::min ();
+
+        std::uint32_t a_uint = max_uint - 1978;
+        std::int32_t a_large_int = max_int - 1978;
+        std::int32_t a_small_int = min_int + 1978;
+
+        json  = "{\"max_uint\":"    + std::to_string (max_uint);
+        json += ",\"max_int\":"     + std::to_string (max_int);
+        json += ",\"min_int\":"     + std::to_string (min_int);
+        json += ",\"a_uint\":"      + std::to_string (a_uint);
+        json += ",\"a_large_int\":" + std::to_string (a_large_int);
+        json += ",\"a_small_int\":" + std::to_string (a_small_int);
+        json += "}";
+
+        Json::Value j1;
+        Json::Reader r1;
+
+        BEAST_EXPECT(r1.parse (json, j1));
+        BEAST_EXPECT(j1["max_uint"].asUInt() == max_uint);
+        BEAST_EXPECT(j1["max_int"].asInt() == max_int);
+        BEAST_EXPECT(j1["min_int"].asInt() == min_int);
+        BEAST_EXPECT(j1["a_uint"].asUInt() == a_uint);
+        BEAST_EXPECT(j1["a_uint"] > a_large_int);
+        BEAST_EXPECT(j1["a_uint"] > a_small_int);
+        BEAST_EXPECT(j1["a_large_int"].asInt() == a_large_int);
+        BEAST_EXPECT(j1["a_large_int"].asUInt() == a_large_int);
+        BEAST_EXPECT(j1["a_large_int"] < a_uint);
+        BEAST_EXPECT(j1["a_small_int"].asInt() == a_small_int);
+        BEAST_EXPECT(j1["a_small_int"] < a_uint);
+
+        json  = "{\"overflow\":";
+        json += std::to_string(std::uint64_t(max_uint) + 1);
+        json += "}";
+
+        Json::Value j2;
+        Json::Reader r2;
+
+        BEAST_EXPECT(!r2.parse (json, j2));
+
+        json  = "{\"underflow\":";
+        json += std::to_string(std::int64_t(min_int) - 1);
+        json += "}";
+
+        Json::Value j3;
+        Json::Reader r3;
+
+        BEAST_EXPECT(!r3.parse (json, j3));
+
+        pass ();
+    }
+
+    void
+    test_copy ()
+    {
+        Json::Value v1{2.5};
+        BEAST_EXPECT(v1.isDouble ());
+        BEAST_EXPECT(v1.asDouble () == 2.5);
+
+        Json::Value v2 = v1;
+        BEAST_EXPECT(v1.isDouble ());
+        BEAST_EXPECT(v1.asDouble () == 2.5);
+        BEAST_EXPECT(v2.isDouble ());
+        BEAST_EXPECT(v2.asDouble () == 2.5);
+        BEAST_EXPECT(v1 == v2);
+
+        v1 = v2;
+        BEAST_EXPECT(v1.isDouble ());
+        BEAST_EXPECT(v1.asDouble () == 2.5);
+        BEAST_EXPECT(v2.isDouble ());
+        BEAST_EXPECT(v2.asDouble () == 2.5);
+        BEAST_EXPECT(v1 == v2);
+
+        pass ();
+    }
+
+    void
+    test_move ()
+    {
+        Json::Value v1{2.5};
+        BEAST_EXPECT(v1.isDouble ());
+        BEAST_EXPECT(v1.asDouble () == 2.5);
+
+        Json::Value v2 = std::move(v1);
+        BEAST_EXPECT(!v1);
+        BEAST_EXPECT(v2.isDouble ());
+        BEAST_EXPECT(v2.asDouble () == 2.5);
+        BEAST_EXPECT(v1 != v2);
+
+        v1 = std::move(v2);
+        BEAST_EXPECT(v1.isDouble ());
+        BEAST_EXPECT(v1.asDouble () == 2.5);
+        BEAST_EXPECT(! v2);
+        BEAST_EXPECT(v1 != v2);
+
+        pass ();
+    }
+
+    void
+    test_comparisons()
+    {
+        Json::Value a, b;
+        auto testEquals = [&] (std::string const& name) {
+            BEAST_EXPECT(a == b);
+            BEAST_EXPECT(a <= b);
+            BEAST_EXPECT(a >= b);
+
+            BEAST_EXPECT(! (a != b));
+            BEAST_EXPECT(! (a < b));
+            BEAST_EXPECT(! (a > b));
+
+            BEAST_EXPECT(b == a);
+            BEAST_EXPECT(b <= a);
+            BEAST_EXPECT(b >= a);
+
+            BEAST_EXPECT(! (b != a));
+            BEAST_EXPECT(! (b < a));
+            BEAST_EXPECT(! (b > a));
+        };
+
+        auto testGreaterThan = [&] (std::string const& name) {
+            BEAST_EXPECT(! (a == b));
+            BEAST_EXPECT(! (a <= b));
+            BEAST_EXPECT(a >= b);
+
+            BEAST_EXPECT(a != b);
+            BEAST_EXPECT(! (a < b));
+            BEAST_EXPECT(a > b);
+
+            BEAST_EXPECT(! (b == a));
+            BEAST_EXPECT(b <= a);
+            BEAST_EXPECT(! (b >= a));
+
+            BEAST_EXPECT(b != a);
+            BEAST_EXPECT(b < a);
+            BEAST_EXPECT(! (b > a));
+        };
+
+        a["a"] = Json::UInt (0);
+        b["a"] = Json::Int (0);
+        testEquals ("zero");
+
+        b["a"] = Json::Int (-1);
+        testGreaterThan ("negative");
+
+        Json::Int big = std::numeric_limits<int>::max();
+        Json::UInt bigger = big;
+        bigger++;
+
+        a["a"] = bigger;
+        b["a"] = big;
+        testGreaterThan ("big");
+    }
+
+    void test_compact ()
+    {
+        Json::Value j;
+        Json::Reader r;
+        char const* s ("{\"array\":[{\"12\":23},{},null,false,0.5]}");
+
+        auto countLines = [](std::string const & s)
+        {
+            return 1 + std::count_if(s.begin(), s.end(), [](char c){
+                return c == '\n';
+            });
+        };
+
+        BEAST_EXPECT(r.parse(s,j));
+        {
+            std::stringstream ss;
+            ss << j;
+            BEAST_EXPECT(countLines(ss.str()) > 1);
+        }
+        {
+            std::stringstream ss;
+            ss << Json::Compact(std::move(j));
+            BEAST_EXPECT(countLines(ss.str()) == 1);
+        }
+    }
+
+    void run ()
+    {
+        test_bool ();
+        test_bad_json ();
+        test_edge_cases ();
+        test_copy ();
+        test_move ();
+        test_comparisons ();
+        test_compact ();
+    }
+};
+
+BEAST_DEFINE_TESTSUITE(json_value, json, sdchain);
+
+} // sdchain
