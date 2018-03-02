@@ -1,0 +1,194 @@
+//------------------------------------------------------------------------------
+/*
+    This file is part of sdchaind: https://github.com/SDChain/SDChain-core
+    Copyright (c) 2017, 2018 SDChain Alliance.
+
+
+
+*/
+//==============================================================================
+
+#ifndef SDCHAIN_CORE_CONFIG_H_INCLUDED
+#define SDCHAIN_CORE_CONFIG_H_INCLUDED
+
+#include <sdchain/basics/BasicConfig.h>
+#include <sdchain/basics/base_uint.h>
+#include <sdchain/protocol/SystemParameters.h> // VFALCO Breaks levelization
+#include <sdchain/beast/net/IPEndpoint.h>
+#include <beast/core/string.hpp>
+#include <sdchain/beast/utility/Journal.h>
+#include <boost/asio/ip/tcp.hpp> // VFALCO FIX: This include should not be here
+#include <boost/filesystem.hpp> // VFALCO FIX: This include should not be here
+#include <boost/lexical_cast.hpp>
+#include <boost/optional.hpp>
+#include <cstdint>
+#include <map>
+#include <string>
+#include <type_traits>
+#include <unordered_set>
+#include <vector>
+
+namespace sdchain {
+
+using namespace std::chrono_literals;
+
+class Rules;
+
+//------------------------------------------------------------------------------
+
+enum SizedItemName
+{
+    siSweepInterval,
+    siNodeCacheSize,
+    siNodeCacheAge,
+    siTreeCacheSize,
+    siTreeCacheAge,
+    siSLECacheSize,
+    siSLECacheAge,
+    siLedgerSize,
+    siLedgerAge,
+    siLedgerFetch,
+    siHashNodeDBCache,
+    siTxnDBCache,
+    siLgrDBCache,
+};
+
+struct SizedItem
+{
+    SizedItemName   item;
+    int             sizes[5];
+};
+
+//  This entire derived class is deprecated.
+//  For new config information use the style implied
+//  in the base class. For existing config information
+//  try to refactor code to use the new style.
+//
+class Config : public BasicConfig
+{
+public:
+    // Settings related to the configuration file location and directories
+    static char const* const configFileName;
+    static char const* const databaseDirName;
+    static char const* const validatorsFileName;
+
+    /** Returns the full path and filename of the debug log file. */
+    boost::filesystem::path getDebugLogFile () const;
+
+    /** Returns the full path and filename of the entropy seed file. */
+    boost::filesystem::path getEntropyFile () const;
+
+private:
+    boost::filesystem::path CONFIG_FILE;
+    boost::filesystem::path CONFIG_DIR;
+    boost::filesystem::path DEBUG_LOGFILE;
+
+    void load ();
+    beast::Journal j_;
+
+    bool QUIET = false;          // Minimize logging verbosity.
+    bool SILENT = false;         // No output to console after startup.
+    /** Operate in stand-alone mode.
+
+        In stand alone mode:
+
+        - Peer connections are not attempted or accepted
+        - The ledger is not advanced automatically.
+        - If no ledger is loaded, the default ledger with the root
+          account is created.
+    */
+    bool                        RUN_STANDALONE = false;
+
+public:
+    bool doImport = false;
+    bool ELB_SUPPORT = false;
+
+    std::vector<std::string>    IPS;                    // Peer IPs from sdchaind.cfg.
+    std::vector<std::string>    IPS_FIXED;              // Fixed Peer IPs from sdchaind.cfg.
+    std::vector<std::string>    SNTP_SERVERS;           // SNTP servers from sdchaind.cfg.
+
+    enum StartUpType
+    {
+        FRESH,
+        NORMAL,
+        LOAD,
+        LOAD_FILE,
+        REPLAY,
+        NETWORK
+    };
+    StartUpType                 START_UP = NORMAL;
+
+    bool                        START_VALID = false;
+
+    std::string                 START_LEDGER;
+
+    // Network parameters
+    int const                   TRANSACTION_FEE_BASE = 10;   // The number of fee units a reference transaction costs
+
+    // Note: The following parameters do not relate to the UNL or trust at all
+    std::size_t                 NETWORK_QUORUM = 0;         // Minimum number of nodes to consider the network present
+
+    // Peer networking parameters
+    bool                        PEER_PRIVATE = false;           // True to ask peers not to relay current IP.
+    int                         PEERS_MAX = 0;
+
+    std::chrono::seconds        WEBSOCKET_PING_FREQ = 5min;
+
+    // Path searching
+    int                         PATH_SEARCH_OLD = 7;
+    int                         PATH_SEARCH = 7;
+    int                         PATH_SEARCH_FAST = 2;
+    int                         PATH_SEARCH_MAX = 10;
+
+    // Validation
+    boost::optional<std::size_t> VALIDATION_QUORUM;     // validations to consider ledger authoritative
+
+    std::uint64_t                      FEE_DEFAULT = 10;
+    std::uint64_t                      FEE_ACCOUNT_RESERVE = 200*SYSTEM_CURRENCY_PARTS;
+    std::uint64_t                      FEE_OWNER_RESERVE = 50*SYSTEM_CURRENCY_PARTS;
+    std::uint64_t                      FEE_OFFER = 10;
+
+    // Node storage configuration
+    std::uint32_t                      LEDGER_HISTORY = 256;
+    std::uint32_t                      FETCH_DEPTH = 1000000000;
+    int                         NODE_SIZE = 0;
+
+    bool                        SSL_VERIFY = true;
+    std::string                 SSL_VERIFY_FILE;
+    std::string                 SSL_VERIFY_DIR;
+
+    // Thread pool configuration
+    std::size_t                 WORKERS = 0;
+
+    // These override the command line client settings
+    boost::optional<boost::asio::ip::address_v4> rpc_ip;
+    boost::optional<std::uint16_t> rpc_port;
+
+    std::unordered_set<uint256, beast::uhash<>> features;
+
+public:
+    Config() = default;
+
+    int getSize (SizedItemName) const;
+    /* Be very careful to make sure these bool params
+        are in the right order. */
+    void setup (std::string const& strConf, bool bQuiet,
+        bool bSilent, bool bStandalone);
+    void setupControl (bool bQuiet,
+        bool bSilent, bool bStandalone);
+
+    /**
+     *  Load the config from the contents of the string.
+     *
+     *  @param fileContents String representing the config contents.
+     */
+    void loadFromString (std::string const& fileContents);
+
+    bool quiet() const { return QUIET; }
+    bool silent() const { return SILENT; }
+    bool standalone() const { return RUN_STANDALONE; }
+};
+
+} // sdchain
+
+#endif
