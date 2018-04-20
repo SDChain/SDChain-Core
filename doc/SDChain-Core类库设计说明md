@@ -1,0 +1,297 @@
+# SDChain-Core 类库设计说明
+
+**1 consensus**
+
+        class RCLConsensus：共识协议类，管理基于RCL的原始共识算法；
+
+        class RCLCxLedger：账本常量类；封装基于RCL的常量账本指针对象；
+
+        class RCLCxPeerPos：端位置常量类；封装基于RCL的peer的签名和提议的位置，包括签名的计算和校验，计算提议的Uid；
+
+        class RCLCxTx：交易常量类，封装基于RCL的交易对象；
+
+        class RCLTxSet：封装管理交易的集合；
+
+        class RCLValidation：验证类。封装基于RCL的原始共识验证对象；
+
+        class RCLValidationsPolicy；实现验证的策略管理，管理策略在数据库中存取
+
+        class AccountStateSF：账户同步状态类；管理账户的同步状态
+
+        class BookListeners：监听订单的发布/订阅的消息
+
+        class ConsensusTransSetSF：封装共识建立过程中交易集合的同步管理；
+
+        class InboundLedger：封装我们试图请求的账本对象
+
+        class InboundLedgers：管理入栈的账本的生命周期
+
+        class InboundTransactions：管理交易结合的获取和生命周期
+
+        class Ledger：账本类，由SHAMaps构成，封装对账本对象的管理操作
+
+class Consensus：共识类，封装共识算法，共识的实现过程及结果查看；
+
+        struct ConsensusParms：共识算法参数结构体，以结构体形式组织共识算法的参数集合；
+
+        class ConsensusProposal：共识提议类，封装提议参与共识的交易集合及操作；
+
+        enum class ConsensusMode：枚举共识模式类，枚举了共识过程中，节点的若干工作模式；
+
+        enum class ConsensusPhase：枚举共识阶段状态类，枚举了节点参与共识过程中所处的状态阶段；
+
+        class DisputedTx：争议交易类，封装有争议交易的共识过程中处理的算法和过程；
+
+        getNextLedgerTimeResolution();计算下一个账本的时间戳；
+
+
+
+**2 ledger**
+
+        class AbstractFetchPackContainer：抽象接口类，封装包的索引检索；
+
+        class AcceptedLedger：管理已经接收确认的，不可变的账本对象；
+
+        class AcceptedLedgerTx：管理不可变的账本中的交易对象；
+
+        class LedgerCleaner：校验账本的连续性，清理数据库中账本/交易的记录；
+
+        class LedgerHistory：管理账本的历史记录；
+
+        class LedgerHolder：线程安全的账本容器；
+
+        class LedgerMaster：封装账本的管理对象，包括当前账本，历史账本，交易记录；
+
+        struct LedgerFill：封装账本对象的json序列化方法；
+
+        class LocalTxs：追踪本地客户端发起的交易；
+
+        class OpenLedger：封装开放的账本对象；
+
+        class OrderBookDB：封装订单簿的持久层操作；
+
+        class PendingSaves：记录、管理还没有完全保存的账本对象；
+
+        class TransactionMaster：记录、管理内存中的交易对象；
+
+        class TransactionStateSF：封装账本同步过程中交易记录树状态
+
+        class TransactionAcquire：管理试图去获取的交易集合
+
+        class ApplyView：申请视图类，账本的可写视图，申请交易的时候用到；
+
+        class CachedView：缓存视图，只读，缓存已经知道的账本视图
+
+        class OpenView ：可写的账本视图，记录累计的状态和交易变化
+
+        class PaymentSandbox：支付沙盒类，封装支付过程中的积分计算，在支付和寻路中用到。
+
+        class RawView：原始视图类，封装账本实体对象改变的接口
+
+        class ReadView：账本的读取视图，疯长账本的访问接口
+
+        struct LedgerInfo：账本信息结构体
+
+**3 main**
+
+        Application: 应用程序启动入口类；
+
+        LoadManager: 加载资源管理类；
+
+        class AmendmentTable：封装优化列表对象；
+
+        class CanonicalTXSet：管理推迟通过共识的交易集合；
+
+        class FeeVote：管理费率投票的过程；
+
+        class HashRouter：哈希对象的路由表类，记录每个hash对象被哪个peer接收了，管理p2p层消息的路由和广播；
+
+        class LoadFeeTrack：管理当前的费率一览表；
+
+        struct Manifest：管理validator；
+
+        class NetworkOPs：为客户端提供服务端的功能函数，包括RPC命令，操作等；
+
+        class OrderBook：为订单簿提供一个序列化的账本实体描述，包括容器，信息获取；
+
+        class SHAMapStore：SHAMap存储类，包含创建key-value数据库，运行在线删除线程，关联sqlite数据
+
+        class SHAMapStoreImp:SHAMapStore的实现接口类；
+
+        class Transaction：交易类，构建和检验交易；
+
+        class TxQ：交易队列类，管理交易队形的队列容器；
+
+        class ValidatorKeys：管理配置文件中验证节点的seed 和key；
+
+        class ValidatorList：记录验证节点的列表容器，包含验证；
+
+        class ValidatorSite：管理由远程网站提供的验证节点：
+
+**4 paths**
+
+        hash\_set&lt;Currency&gt; accountDestCurrencies()：计算账户的目标资产集合；
+
+        hash\_set&lt;Currency&gt; accountSourceCurrencies()：计算账户的源资产集合；
+
+        creditLimit(): 计算一个账户可持有的最大数量IOUs；
+
+        flow();构建一个从源账户到目标账户的交易；
+
+        struct Node：节点对象的数据结构；
+
+        class Pathfinder：计算支付的路径；
+
+        class PathState：保存路径的状态集合；
+
+        class SDChainCalc：计算一条支付路径的质量；
+
+        class SDChainLineCache：支付路径的缓存，在pathfinder过程中会用到；
+
+        class SDChainState：封装了获取一个账户Trust line的操作；
+
+**5 Transaction**
+
+        enum class Validity：描述一个交易的预处理的有效性状态；
+
+        struct PreflightResult：描述一个预检结果的结构体；
+
+        struct PreclaimResult：描述一个声明结果的结构体；
+
+        struct TxConsequences：描述一个交易结果的结构体；
+
+        class ApplyContext：封装了申请一次交易的时候的状态信息；
+
+        class BookTip：记录在一个订单中迭代和消耗的原料；
+
+        class CancelOffer：取消报价类；
+
+        class CancelTicket：取消选票类；
+
+        class Change：交易更改类，封装更改一次交易的参数的设置方法；
+
+        class CreateOffer：创建报价类；
+
+        class CreateTicket：创建选票类；
+
+        class EscrowCreate：创建第三方托管类；
+
+        class TOffer：报价类，封装报价过程需要的信息和操作；
+
+        class Payment：支付类，封装支付过程的操作和参数；
+
+        class SetAccount：账户设置类，封装账户设置过程的操作和参数；
+
+        class SetRegularKey：常规秘钥设置类；
+
+        class SetSignerList：签名人列表设置类；
+
+        class SetTrust：设置Trust line类；
+
+        class Taker：购买者类；
+
+        class Transactor：交易类，封装交易过程的操作、校验函数和参数；
+
+**6 basics**
+
+        enum LogSeverity：枚举日志的级别；
+
+        class Logs：日志类，负责系统运行的输出日志的管理；
+
+        class Slice：精度类，一个不可变的线性范围的字节数；
+
+        class UptimeTimer：运行时间类，统计节点的运行时间信息；
+
+        strHex():格式转换，转换证十六进制的字符串
+
+**7 core**
+
+        enum JobType：工作任务类型枚举；
+
+        class Job：工作线程任务类，提供工作线程的任务定义设置等接口；
+
+        class JobQueue：任务队列，存放任务列表；
+
+        struct JobTypeData：任务类型数据结构体，任务执行过程中通用的属性；
+
+        class JobTypeInfo：存储任务的静态信息；
+
+        class JobTypes：定义任务处理的函数和参数信息；
+
+        class LoadMonitor：统计负载的级别和响应时间；
+
+        class SociConfig：封装数据库操作的配置文件信息；
+
+        class RootStoppable：工作线程的接口类，提供线程的启动和停止接口
+
+**8 crypto**
+
+        class csprng\_engine:随机数发生器引擎；
+
+        generateRootDeterministicPublicKey：生成Root公钥
+
+        generateRootDeterministicPrivateKey：生成Root私钥
+
+        generatePublicDeterministicKey：生成公钥
+
+        generatePrivateDeterministicKey：生成私钥
+
+        enum class KeyType：加密类型枚举类，枚举支持的加密类型
+
+**9 json**
+
+        序列化模块，封装json序列化和反序列化的方法；
+
+**10 net**
+
+        class AutoSocket：封装Socket通讯，支持SSL和non-SSL连接；
+
+        class HTTPClient：封装Http Clinet的实现，支持SSL；
+
+        cmdLineToJSONRPC：处理命令行的json 命令
+
+        rpcClient：处理来网络client的json命令
+
+        class RPCSub：订阅对象类，设置来自JSON RPC的订阅对象
+
+enum class Role：角色枚举类，枚举RPC用户的角色定义
+
+        struct Status：封装操作或命令执行结果的可能状态
+
+        doCommand：处理不同命令和操作的处理函数调用
+
+make\_Server：创建http server
+
+        class Session:记录和管理一个连接的session信息；
+
+        struct WSSession：封装wss Session信息及操作
+
+**11 nodestore**
+
+        class Backend：后端类，存储节点的后端抽象，封装数据库后端配置的接口；
+
+        class Database：数据库类，封装数据库持久层操作的的接口，
+
+        class Factory：工厂类，后端的抽象工厂类
+
+        class Manager：管理对象存储和后端的单体类
+
+        enum NodeObjectType：枚举存储对象的类型
+
+        class Scheduler：计划类，封装数据库异步的读写和任务调度；
+
+**12 peer**
+
+        class Peer：描述Peer的链接；
+
+        class PeerSet：记录Peer的集合；
+
+        class Overlay：管理Peers的链接集合；
+
+class peerfinder: 发现节点
+
+**13 protocol**
+
+        定义了底层通讯协议格式，供给protobuf 使用
+
+proto底层的通讯协处理函数，有protobuf生成
