@@ -37,7 +37,7 @@ Save and then:
     cd sdchain/ 
     scons
 
-  this step may take 10 minutes，When show "scons:done building targets"，means compiled。
+  this step may take 10 minutes，When show "scons:done building targets"，it means being compiled successfully。
 
 **(4) Add config files**
 
