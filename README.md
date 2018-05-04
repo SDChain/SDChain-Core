@@ -9,27 +9,27 @@ Download SDChain-Core src from https://github.com/SDChain/SDChain-Core.git
 
 **2、Compile**
 
-**(1) Install depends**
+**(1) Install dependents**
 
     cd sdchaind/Builds/Ubuntu/
 
-    chmod +x install\_boost.sh
+    chmod +x install_boost.sh
 
-    chmod +x install\_sdchaind\_depends\_ubuntu.sh
+    chmod +x install_sdchaind_depends_ubuntu.sh
 
     cd sdchaind
 
-    sudo Builds/Ubuntu/install\_sdchaind\_depends\_ubuntu.sh
+    sudo Builds/Ubuntu/install_sdchaind_depends_ubuntu.sh
 
-    sudo Builds/Ubuntu/install\_boost.sh
+    sudo Builds/Ubuntu/install_boost.sh
 
 **(2) Edit profile**
 
     vi /etc/profile
 Add 
-    BOOST\_ROOT=/path/to/sdchaind/boost\_1\_63\_0
+    BOOST\_ROOT=/path/to/sdchaind/boost_1_63_0
 
-    export BOOST\_ROOT
+    export BOOST_ROOT
 to the tail,
 Save and then:
 
