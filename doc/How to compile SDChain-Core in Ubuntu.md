@@ -1,7 +1,4 @@
-# Official C++ implementation of the Six Domain Chain
-
-
-***How to compile SDChain-Core in Ubuntu***
+# How to compile SDChain-Core in Ubuntu
 
 **1、Download source code**
 
