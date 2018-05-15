@@ -1,30 +1,13 @@
-#
+  
+  
+  
 
-#
+## VisualStudio2015
 
-#
+## 上编译安装SDChain-Core流程
 
-#
 
-# VisualStudio2015
 
-# 上编译安装SDChain-Core流程
-
-#
-
-#
-
-#
-
-#
-
-#
-
-#
-
-#
-
-#
 
 目录
 
@@ -56,25 +39,9 @@
 
 2.6编译        7
 
-#
 
-#
 
-#
 
-#
-
-#
-
-#
-
-#
-
-#
-
-#
-
-#
 ## 1 开发环境
 
 ## 的安装
@@ -190,7 +157,7 @@ bootstrap.bat
 
 ②提示
 
-【/boost/python/detail/wrap\_python.hpp:75:24: 致命错误：patchlevel.h：没有那个文件或目录
+【/boost/python/detail/wrap_python.hpp:75:24: 致命错误：patchlevel.h：没有那个文件或目录
 
  编译中断。
 
@@ -264,7 +231,7 @@ sdchaind服务器使用sdchaind.cfg文件去读它的配置参数。请阅读sdc
 
 --conf=&quot;C:/Users/admin/sdchain/config/sdchaind.cfg&quot;
 
-## 2.5设置\_NO\_DEBUG\_HEAP环境变量
+## 2.5设置_NO_DEBUG_HEAP环境变量
 
 在&quot;Environment&quot; 一栏，填写\_NO\_DEBUG\_HEAP=1，禁用debug heap以加快sdchaind run的时间。
 
