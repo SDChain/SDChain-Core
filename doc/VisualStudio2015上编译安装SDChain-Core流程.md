@@ -2,9 +2,7 @@
   
   
 
-## VisualStudio2015
-
-## 上编译安装SDChain-Core流程
+## VisualStudio2015上编译安装SDChain-Core流程
 
 
 
@@ -35,7 +33,7 @@
 
 2.4告知sdchaind工程配置文件的路径        6
 
-2.5设置\_NO\_DEBUG\_HEAP环境变量        7
+2.5设置_NO_DEBUG_HEAP环境变量        7
 
 2.6编译        7
 
@@ -116,7 +114,7 @@ scons的安装包解压后，通过命令# python setup.py install安装。
 
 ## 1.5 openssl-64bit
 
-版本 1\_0\_2k
+版本 1_0_2k
 
 （1）安装包
     Win64OpenSSL-1_0_2k.exe
@@ -207,7 +205,7 @@ bjam --toolset=msvc-14.0 variant=debug,release link=static runtime-link=static a
 
 （4）选择\*Linker, General, Additional Library Directories\* ，添加构建boost库的路径。就是提示&quot;the following directory should be added to linker library paths:&quot;后的路径。
 
-这里是&quot;C:\lib\boost\_1\_62\_0\stage\lib&quot;
+这里是&quot;C:\lib\boost_1_62_0\stage\lib&quot;
 
 （5）在`Additional Include Directories`和`Additional Library Directories`下，同样的添加openssl对应的路径。
 
@@ -233,7 +231,7 @@ sdchaind服务器使用sdchaind.cfg文件去读它的配置参数。请阅读sdc
 
 ## 2.5设置_NO_DEBUG_HEAP环境变量
 
-在&quot;Environment&quot; 一栏，填写\_NO\_DEBUG\_HEAP=1，禁用debug heap以加快sdchaind run的时间。
+在&quot;Environment&quot; 一栏，填写_NO_DEBUG_HEAP=1，禁用debug heap以加快sdchaind run的时间。
 
 ## 2.6编译
 
