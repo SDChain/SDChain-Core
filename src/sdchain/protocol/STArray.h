@@ -1,0 +1,168 @@
+//------------------------------------------------------------------------------
+/*
+    This file is part of sdchaind: https://github.com/SDChain/SDChain-core
+    Copyright (c) 2017, 2018 SDChain Alliance.
+
+
+
+*/
+//==============================================================================
+
+#ifndef SDCHAIN_PROTOCOL_STARRAY_H_INCLUDED
+#define SDCHAIN_PROTOCOL_STARRAY_H_INCLUDED
+
+#include <sdchain/basics/CountedObject.h>
+#include <sdchain/protocol/STObject.h>
+
+namespace sdchain {
+
+class STArray final
+    : public STBase
+    , public CountedObject <STArray>
+{
+private:
+    using list_type = std::vector<STObject>;
+
+    enum
+    {
+        reserveSize = 8
+    };
+
+    list_type v_;
+
+public:
+    // Read-only iteration
+    class Items;
+
+    static char const* getCountedObjectName () { return "STArray"; }
+
+    using size_type = list_type::size_type;
+    using iterator = list_type::iterator;
+    using const_iterator = list_type::const_iterator;
+
+    STArray();
+    STArray (STArray&&);
+    STArray (STArray const&) = default;
+    STArray (SField const& f, int n);
+    STArray (SerialIter& sit, SField const& f);
+    explicit STArray (int n);
+    explicit STArray (SField const& f);
+    STArray& operator= (STArray const&) = default;
+    STArray& operator= (STArray&&);
+
+    STBase*
+    copy (std::size_t n, void* buf) const override
+    {
+        return emplace(n, buf, *this);
+    }
+
+    STBase*
+    move (std::size_t n, void* buf) override
+    {
+        return emplace(n, buf, std::move(*this));
+    }
+
+    STObject& operator[] (std::size_t j)
+    {
+        return v_[j];
+    }
+
+    STObject const& operator[] (std::size_t j) const
+    {
+        return v_[j];
+    }
+
+    STObject& back() { return v_.back(); }
+
+    STObject const& back() const { return v_.back(); }
+
+    template <class... Args>
+    void
+    emplace_back(Args&&... args)
+    {
+        v_.emplace_back(std::forward<Args>(args)...);
+    }
+
+    void push_back (STObject const& object)
+    {
+        v_.push_back(object);
+    }
+
+    void push_back (STObject&& object)
+    {
+        v_.push_back(std::move(object));
+    }
+
+    iterator begin ()
+    {
+        return v_.begin ();
+    }
+
+    iterator end ()
+    {
+        return v_.end ();
+    }
+
+    const_iterator begin () const
+    {
+        return v_.begin ();
+    }
+
+    const_iterator end () const
+    {
+        return v_.end ();
+    }
+
+    size_type size () const
+    {
+        return v_.size ();
+    }
+
+    bool empty () const
+    {
+        return v_.empty ();
+    }
+    void clear ()
+    {
+        v_.clear ();
+    }
+    void reserve (std::size_t n)
+    {
+        v_.reserve (n);
+    }
+    void swap (STArray & a) noexcept
+    {
+        v_.swap (a.v_);
+    }
+
+    virtual std::string getFullText () const override;
+    virtual std::string getText () const override;
+
+    virtual Json::Value getJson (int index) const override;
+    virtual void add (Serializer & s) const override;
+
+    void sort (bool (*compare) (const STObject & o1, const STObject & o2));
+
+    bool operator== (const STArray & s) const
+    {
+        return v_ == s.v_;
+    }
+    bool operator!= (const STArray & s) const
+    {
+        return v_ != s.v_;
+    }
+
+    virtual SerializedTypeID getSType () const override
+    {
+        return STI_ARRAY;
+    }
+    virtual bool isEquivalent (const STBase & t) const override;
+    virtual bool isDefault () const override
+    {
+        return v_.empty ();
+    }
+};
+
+} // sdchain
+
+#endif
