@@ -158,6 +158,7 @@ struct TxConsequences
 
 };
 
+    /*  5 steps */
 /** Gate a transaction based on static information.
 
     The transaction is checked against all possible
