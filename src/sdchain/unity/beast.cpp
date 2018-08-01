@@ -2,9 +2,6 @@
 /*
     This file is part of sdchaind: https://github.com/SDChain/SDChain-core
     Copyright (c) 2017, 2018 SDChain Alliance.
-
-
-
 */
 //==============================================================================
 

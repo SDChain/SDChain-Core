@@ -2,9 +2,6 @@
 /*
     This file is part of sdchaind: https://github.com/SDChain/SDChain-core
     Copyright (c) 2017, 2018 SDChain Alliance.
-
-
-
 */
 //==============================================================================
 
@@ -17,6 +14,7 @@
 #include <sdchain/basics/impl/Log.cpp>
 #include <sdchain/basics/impl/make_SSLContext.cpp>
 #include <sdchain/basics/impl/mulDiv.cpp>
+#include <sdchain/basics/impl/RangeSet.cpp>
 #include <sdchain/basics/impl/ResolverAsio.cpp>
 #include <sdchain/basics/impl/strHex.cpp>
 #include <sdchain/basics/impl/StringUtilities.cpp>

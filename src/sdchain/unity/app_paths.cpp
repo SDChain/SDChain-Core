@@ -2,9 +2,6 @@
 /*
     This file is part of sdchaind: https://github.com/SDChain/SDChain-core
     Copyright (c) 2017, 2018 SDChain Alliance.
-
-
-
 */
 //==============================================================================
 
@@ -18,7 +15,7 @@
 #include <sdchain/app/paths/PathRequest.cpp>
 #include <sdchain/app/paths/PathRequests.cpp>
 #include <sdchain/app/paths/PathState.cpp>
-#include <sdchain/app/paths/SDChainCalc.cpp>
+#include <sdchain/app/paths/SdchainCalc.cpp>
 #include <sdchain/app/paths/SDChainLineCache.cpp>
 #include <sdchain/app/paths/Flow.cpp>
 #include <sdchain/app/paths/impl/PaySteps.cpp>
