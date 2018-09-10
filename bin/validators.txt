@@ -1,0 +1,6 @@
+# Public keys of the validators that this sdchaind instance trusts.
+[validators]
+n9Lr29gUBGiVQ7tBtYF5z5Wf8EdsHTGuzRpHmDU8KQPmsqQUoW3C
+n9J81LG8gZBh5heiWahhd5qNM2avBHiznWhdkvk8oZ43b3PFqQq1
+n9MuZEPUjiSEQBhSSHFWBMKpFPmFVBRhwx7bscdarsWobb5wxdsZ
+n9MJhxuxu2V3zbFH42c3nL9kX7aZa5jU7xoZKu6pCdBVrQKqx4zd
