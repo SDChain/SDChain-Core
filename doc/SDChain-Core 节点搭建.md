@@ -1,0 +1,86 @@
+### 1	环境要求
+```
+操作系统：Ubuntu 14.04_64、 Ubuntu 16.04_64
+CPU：3GHz+ processor with 4 cores 
+内存：2G+
+硬盘：40G+
+编译环境：gcc version 5.4.1
+资源限制：
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31449
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 1024
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 31449
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+```
+
+### 2	软件下载
+https://github.com/SDChain/SDChain-Core/bin  
+下载 sdchaind.tar.gz 文件  
+解压后包含如下文件：
+```
+libprotobuf.so.8
+libprotobuf.so.8.0.0
+libstdc++.so.6
+sdchaind
+start.sh
+start-first.sh
+```
+### 3	安装部署
+#####  (1)	部署可执行程序目录
+``` 
+mkdir /usr/local/sdchaind
+mv sdchaind /usr/local/sdchaind
+```
+##### (2)	部署配置文件目录
+配置文件下载路径 https://github.com/SDChain/SDChain-Core/bin 
+```
+mkdir /etc/opt/sdchaind
+mv SDChain-Core.cfg validators.txt /etc/opt/sdchaind
+```
+
+##### (3)  部署数据库文件目录
+```
+mkdir /var/lib/sdchaind/db
+```
+
+##### (4)	部署日志文件目录
+```
+mkdir /var/log/ sdchaind
+```
+
+##### (5)	部署依赖库文件目录
+```
+mv libprotobuf.so.8 /usr/lib/x86_64-linux-gnu/libprotobuf.so.8
+mv libprotobuf.so.8.0.0 /usr/lib/x86_64-linux-gnu/libprotobuf.so.8.0.0
+mv libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so.6
+```
+
+### 4	脚本启动运行
+```
+chmod +x start-first.sh start.sh    //添加可执行权限给启动脚本
+```
+
+```
+./start-first.sh    //第一次启动
+```
+```
+./start.sh      //再次启动
+```
+```
+./sdchaind stop     //关闭服务
+```
+```
+./sdchaind  peers       //验证是否启动成功
+//返回数据有其它SDChain-Core节点服务器的信息，说明已经成功连接上区块链公共服务网络。
+```
