@@ -33,8 +33,6 @@ libprotobuf.so.8
 libprotobuf.so.8.0.0
 libstdc++.so.6
 sdchaind
-start.sh
-start-first.sh
 ```
 ### 3	安装部署
 #####  (1)	部署可执行程序目录
@@ -43,7 +41,7 @@ mkdir /usr/local/sdchaind
 mv sdchaind /usr/local/sdchaind
 ```
 ##### (2)	部署配置文件目录
-配置文件下载路径 https://github.com/SDChain/SDChain-Core/bin 
+配置文件路径 https://github.com/SDChain/SDChain-Core/bin 
 ```
 mkdir /etc/opt/sdchaind
 mv SDChain-Core.cfg validators.txt /etc/opt/sdchaind
@@ -67,15 +65,13 @@ mv libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so.6
 ```
 
 ### 4	脚本启动运行
+脚本文件路径 https://github.com/SDChain/SDChain-Core/bin/start.sh 
 ```
-chmod +x start-first.sh start.sh    //添加可执行权限给启动脚本
+chmod +x start.sh    //添加可执行权限给启动脚本
 ```
 
 ```
-./start-first.sh    //第一次启动
-```
-```
-./start.sh      //再次启动
+./start.sh    //执行启动脚本
 ```
 ```
 ./sdchaind stop     //关闭服务
