@@ -54,7 +54,7 @@ mkdir /var/lib/sdchaind/db
 
 ##### (4)	部署日志文件目录
 ```
-mkdir /var/log/ sdchaind
+mkdir /var/log/sdchaind
 ```
 
 ##### (5)	部署依赖库文件目录
