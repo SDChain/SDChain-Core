@@ -13,7 +13,7 @@ file size               (blocks, -f) unlimited
 pending signals                 (-i) 31449
 max locked memory       (kbytes, -l) 64
 max memory size         (kbytes, -m) unlimited
-open files                      (-n) 1024
+open files                      (-n) 10240
 pipe size            (512 bytes, -p) 8
 POSIX message queues     (bytes, -q) 819200
 real-time priority              (-r) 0
@@ -26,7 +26,7 @@ file locks                      (-x) unlimited
 
 ### 2	软件下载
 https://github.com/SDChain/SDChain-Core/bin  
-下载 sdchaind.tar.gz 文件  
+下载 sdchaind-v0.3.7.tar.gz 文件  
 解压后包含如下文件：
 ```
 libprotobuf.so.8
@@ -38,26 +38,16 @@ sdchaind
 #####  (1)	部署可执行程序目录
 ``` 
 mkdir /usr/local/sdchaind
-mv sdchaind /usr/local/sdchaind
-```
-##### (2)	部署配置文件目录
-配置文件路径 https://github.com/SDChain/SDChain-Core/bin 
-```
-mkdir /etc/opt/sdchaind
-mv SDChain-Core.cfg validators.txt /etc/opt/sdchaind
+mv sdchaind-v0.3.7.tar.gz /usr/local/sdchaind
+tar -zxvf sdchaind-v0.3.7.tar.gz
 ```
 
-##### (3)  部署数据库文件目录
+##### (2)	部署日志文件目录
 ```
-mkdir /var/lib/sdchaind/db
-```
-
-##### (4)	部署日志文件目录
-```
-mkdir /var/log/sdchaind
+mkdir ./log/
 ```
 
-##### (5)	部署依赖库文件目录
+##### (3)	部署依赖库文件目录
 ```
 mv libprotobuf.so.8 /usr/lib/x86_64-linux-gnu/libprotobuf.so.8
 mv libprotobuf.so.8.0.0 /usr/lib/x86_64-linux-gnu/libprotobuf.so.8.0.0
