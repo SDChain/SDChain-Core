@@ -26,6 +26,7 @@ file locks                      (-x) unlimited
 
 ### 2	软件下载
 https://github.com/SDChain/SDChain-Core/releases/download/0.4.1-c/sdchaind-v0.4.1-c.tar.gz
+
 下载 sdchaind-v0.4.1-c.tar.gz 文件  
 解压后包含如下文件：
 ```
