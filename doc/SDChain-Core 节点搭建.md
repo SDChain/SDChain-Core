@@ -25,8 +25,8 @@ file locks                      (-x) unlimited
 ```
 
 ### 2	软件下载
-https://github.com/SDChain/SDChain-Core/bin  
-下载 sdchaind-v0.3.7.tar.gz 文件  
+https://github.com/SDChain/SDChain-Core/releases/download/0.4.1-c/sdchaind-v0.4.1-c.tar.gz
+下载 sdchaind-v0.4.1-c.tar.gz 文件  
 解压后包含如下文件：
 ```
 libprotobuf.so.8
@@ -38,8 +38,8 @@ sdchaind
 #####  (1)	部署可执行程序目录
 ``` 
 mkdir /usr/local/sdchaind
-mv sdchaind-v0.3.7.tar.gz /usr/local/sdchaind
-tar -zxvf sdchaind-v0.3.7.tar.gz
+mv sdchaind-v0.4.1-c.tar.gz /usr/local/sdchaind
+tar -zxvf sdchaind-v0.4.1-c.tar.gz
 ```
 
 ##### (2)	部署日志文件目录
