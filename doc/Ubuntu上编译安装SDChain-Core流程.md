@@ -10,27 +10,27 @@
 
 在sdchaind/Builds/Ubuntu目录下，输入命令：
 
-_ chmod +x install\_boost.sh_
+chmod +x install\_boost.sh_
 
-_         chmod +x install\_sdchaind\_depends\_ubuntu.sh_
+chmod +x install\_sdchaind\_depends\_ubuntu.sh_
 
   在sdchaind目录下，输入命令：
 
-_ sudo Builds/Ubuntu/install\_sdchaind\_depends\_ubuntu.sh_
+ sudo Builds/Ubuntu/install\_sdchaind\_depends\_ubuntu.sh_
 
-_ sudo Builds/Ubuntu/install\_boost.sh_
+ sudo Builds/Ubuntu/install\_boost.sh_
 
 **(2) 更改系统配置文件**
 
 /etc/profile文件中，添加以下两行：
 
-_ BOOST\_ROOT=/path/to/sdchaind/boost\_1\_63\_0_
+ BOOST\_ROOT=/path/to/sdchaind/boost\_1\_63\_0_
 
-_ export BOOST\_ROOT_
+ export BOOST\_ROOT_
 
 更新配置，输入命令：
 
-_source /etc/profile_
+source /etc/profile_
 
 **(3) 编译**
 
