@@ -2,19 +2,19 @@
 
 **1 consensus**
 
-        class RCLConsensus：共识协议类，管理基于RCL的原始共识算法；
+        class CLConsensus：共识协议类，管理基于CL的原始共识算法；
 
-        class RCLCxLedger：账本常量类；封装基于RCL的常量账本指针对象；
+        class CLCxLedger：账本常量类；封装基于CL的常量账本指针对象；
 
-        class RCLCxPeerPos：端位置常量类；封装基于RCL的peer的签名和提议的位置，包括签名的计算和校验，计算提议的Uid；
+        class CLCxPeerPos：端位置常量类；封装基于CL的peer的签名和提议的位置，包括签名的计算和校验，计算提议的Uid；
 
-        class RCLCxTx：交易常量类，封装基于RCL的交易对象；
+        class CLCxTx：交易常量类，封装基于RCL的交易对象；
 
-        class RCLTxSet：封装管理交易的集合；
+        class CLTxSet：封装管理交易的集合；
 
-        class RCLValidation：验证类。封装基于RCL的原始共识验证对象；
+        class CLValidation：验证类。封装基于CL的原始共识验证对象；
 
-        class RCLValidationsPolicy；实现验证的策略管理，管理策略在数据库中存取
+        class CLValidationsPolicy；实现验证的策略管理，管理策略在数据库中存取
 
         class AccountStateSF：账户同步状态类；管理账户的同步状态
 
