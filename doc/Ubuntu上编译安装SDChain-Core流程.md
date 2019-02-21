@@ -10,15 +10,15 @@
 
 在sdchaind/Builds/Ubuntu目录下，输入命令：
 
-chmod +x install\_boost.sh_
+chmod +x install\_boost.sh
 
-chmod +x install\_sdchaind\_depends\_ubuntu.sh_
+chmod +x install\_sdchaind\_depends\_ubuntu.sh
 
   在sdchaind目录下，输入命令：
 
- sudo Builds/Ubuntu/install\_sdchaind\_depends\_ubuntu.sh_
+ sudo Builds/Ubuntu/install\_sdchaind\_depends\_ubuntu.sh
 
- sudo Builds/Ubuntu/install\_boost.sh_
+ sudo Builds/Ubuntu/install\_boost.sh
 
 **(2) 更改系统配置文件**
 
