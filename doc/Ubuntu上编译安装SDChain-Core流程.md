@@ -24,17 +24,17 @@ chmod +x install\_sdchaind\_depends\_ubuntu.sh_
 
 /etc/profile文件中，添加以下两行：
 
- BOOST\_ROOT=/path/to/sdchaind/boost\_1\_63\_0_
+ BOOST\_ROOT=/path/to/sdchaind/boost\_1\_63\_0
 
- export BOOST\_ROOT_
+ export BOOST\_ROOT
 
 更新配置，输入命令：
 
-source /etc/profile_
+source /etc/profile
 
 **(3) 编译**
 
-在sdchaind目录下，输入命令:_scons_
+在sdchaind目录下，输入命令:scons
 
   等待10分钟左右，当显示&quot;scons:done building targets&quot;时，编译完成。
 
@@ -42,24 +42,24 @@ source /etc/profile_
 
 在/etc/opt目录下创建sdchain文件夹。复制配置文件
 
-_cp /sdchaind/doc/sdchaind-example.cfg /etc/opt/sdchain/sdchaind.cfg_
+cp /sdchaind/doc/sdchaind-example.cfg /etc/opt/sdchain/sdchaind.cfg
 
-_ cp /sdchaind/doc/validators-example.txt /etc/opt/sdchain/validators.txt_
+ cp /sdchaind/doc/validators-example.txt /etc/opt/sdchain/validators.txt
 
 **(5) 优化系统配置**
 
-_vim /etc/security/limits.conf_
+vim /etc/security/limits.conf
 
              在文件尾部增加下面两行
 
-_     \*     soft     nofile     65535_
+     \*     soft     nofile     65535
 
-_     \*     hard     nofile    65535_
+     \*     hard     nofile    65535
 
 **(5) 测试查看是否编译完成**
 
- 在sdchaind目录下，输入命令: _./build/sdchaind_
+ 在sdchaind目录下，输入命令: ./build/sdchaind
 
 **3、运行sdchaind**
 
-在sdchaind目录下，输入命令: _./build/sdchaind -a --start_
+在sdchaind目录下，输入命令: ./build/sdchaind -a --start
