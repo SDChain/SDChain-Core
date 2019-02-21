@@ -1,4 +1,4 @@
-**Ubuntu上编译安装SDChaind-Core**** 流程**
+**Ubuntu上编译安装SDChaind-Core 流程**
 
 **1、下载源码**
 
