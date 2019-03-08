@@ -32,8 +32,8 @@ OpenSSL 是一个安全 [套接字](https://baike.baidu.com/item/%E5%A5%97%E6%8E
 
 **2.2 Snappy**
 
-是一个 C++ 的用来压缩和解压缩的开发包。其目标不是最大限度压缩或者兼容其他压缩格式，而是旨在提供高速压缩速度和合理的压缩率。Snappy 比 zlib 更快，但文件相对要大 20% 到 100%。在 64位模式的 Core i7 处理器上，可达每秒 250~500兆的压缩速度。Snappy 在 Google 内部被广泛的使用，从 BigTable 到 MapReduce 以及内部的 RPC 系统。[1]
-snappy 是一个压缩库。它可以利用单颗Intel Corei7处理器内核处理至少每秒250MB~500MB的数据流。
+是一个 C++ 的用来压缩和解压缩的开发包。其目标不是最大限度压缩或者兼容其他压缩格式，而是旨在提供高速压缩速度和合理的压缩率。Snappy 比 zlib 更快，但文件相对要大 20% 到 100%。在 64位模式的 Core i7 处理器上，可达每秒 250\~500兆的压缩速度。Snappy 在 Google 内部被广泛的使用，从 BigTable 到 MapReduce 以及内部的 RPC 系统。[1]
+snappy 是一个压缩库。它可以利用单颗Intel Corei7处理器内核处理至少每秒250MB\~500MB的数据流。
 
 snappy 的前身是Zippy。虽然只是一个数据压缩库，它却被Google用于许多内部项目程，其中就包括BigTable，MapReduce和RPC。Google宣称它在这个库本身及其算法做了数据处理速度上的优化，作为代价，并没有考虑输出大小以及和其他类似工具的兼容性问题。Snappy特地为64位x86处理器做了优化，在单个Intel Core i7处理器内核上能够达到至少每秒250MB的压缩速率和每秒500MB的解压速率。
 
